@@ -53,8 +53,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-deps-{{ checksum "frontend/package-lock.json" }}
-          paths: [frontend/node_modules]
-          key: frontend-dep-{{ checksum "frontend/package-lock.json" }}
+         
 
   build-backend:
     docker:
