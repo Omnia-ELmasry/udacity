@@ -33,7 +33,7 @@ commands:
             fi
             
 jobs:
-   build-frontend:
+  build-frontend:
     docker:
       - image: cimg/node:13.8.0
     steps:
@@ -56,7 +56,7 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-dep-{{ checksum "frontend/package-lock.json" }}
 
-   build-backend:
+  build-backend:
     docker:
       - image: cimg/node:13.8.0
     steps:
@@ -78,7 +78,7 @@ jobs:
           paths: [backend/node_modules]
           key: backend-deps-{{ checksum "backend/package-lock.json" }}
 
- test-frontend:
+  test-frontend:
     docker:
        - image: cimg/node:13.8.0
     steps:
@@ -92,7 +92,7 @@ jobs:
             npm install
             npm test
 
-  test-frontend:
+   test-frontend:
     docker:
       # Docker image here
     steps:
@@ -270,7 +270,7 @@ jobs:
             # your code here
       # Here's where you will add some code to rollback on failure  
 
-cleanup:
+  cleanup:
     docker:
       # Docker image here
     steps:
