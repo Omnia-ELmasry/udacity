@@ -44,7 +44,7 @@ jobs:
           name: Install dependencies
           command: |
             cd frontend
-            npm install
+            sudo npm install
       - run:
           name: Build frontend
           command: |
@@ -67,7 +67,7 @@ jobs:
           name: Install dependencies
           command: |
             cd backend
-            npm install
+            sudo npm install
       - run:
           name: Build backend
           command: |
