@@ -34,12 +34,12 @@ commands:
 jobs:
   build-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - frontend-deps-{{ checksum "frontend/package-lock.json" }}
+      - restore_cache:
+          keys:
+            - frontend-deps-{{ checksum "frontend/package-lock.json" }}
       - run:
           name: Install dependencies
           command: |
@@ -57,12 +57,12 @@ jobs:
     
   build-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - backend-deps-{{ checksum "backend/package-lock.json" }}
+      - restore_cache:
+          keys:
+            - backend-deps-{{ checksum "backend/package-lock.json" }}
       - run:
           name: Install dependencies
           command: |
