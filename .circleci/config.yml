@@ -97,9 +97,9 @@ jobs:
       - image: cimg/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - frontend-deps-{{ checksum "frontend/package-lock.json" }}
+      # - restore_cache:
+      #     keys:
+      #       - frontend-deps-{{ checksum "frontend/package-lock.json" }}
       - run:
           name: Install dependencies
           command: |
@@ -120,9 +120,9 @@ jobs:
       - image: cimg/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - backend-deps-{{ checksum "backend/package-lock.json" }}
+      # - restore_cache:
+      #     keys:
+      #       - backend-deps-{{ checksum "backend/package-lock.json" }}
       - run:
           name: Install dependencies
           command: |
@@ -143,9 +143,9 @@ jobs:
     - image: cimg/node:13.8.0
     steps:
     - checkout
-    - restore_cache:
-       keys:
-         - frontend-deps-{{ checksum "frontend/package-lock.json" }}
+    # - restore_cache:
+    #    keys:
+    #      - frontend-deps-{{ checksum "frontend/package-lock.json" }}
     - run:
         name: Install dependencies
         command: |
@@ -162,9 +162,9 @@ jobs:
     - image: cimg/node:13.8.0
     steps:
     - checkout
-    - restore_cache:
-       keys:
-         - backend-deps-{{ checksum "backend/package-lock.json" }}
+    # - restore_cache:
+    #    keys:
+    #      - backend-deps-{{ checksum "backend/package-lock.json" }}
     - run:
         name: Install dependencies
         command: |
@@ -182,9 +182,9 @@ jobs:
     - image: cimg/node:13.8.0
     steps:
     - checkout
-    - restore_cache:
-       keys:
-         - frontend-deps-{{ checksum "frontend/package-lock.json" }}
+    # - restore_cache:
+    #    keys:
+    #      - frontend-deps-{{ checksum "frontend/package-lock.json" }}
     - run:
         name: Install dependencies
         command: |
@@ -204,9 +204,9 @@ jobs:
     - image: cimg/node:13.8.0
     steps:
     - checkout
-    - restore_cache:
-       keys:
-         - backend-deps-{{ checksum "backend/package-lock.json" }}
+    # - restore_cache:
+    #    keys:
+    #      - backend-deps-{{ checksum "backend/package-lock.json" }}
     - run:
         name: Install dependencies
         command: |
@@ -290,8 +290,8 @@ jobs:
     steps:
       - install_awscli
       - install_nodejs
-      - restore_cache:
-          keys: [backend-deps]
+      # - restore_cache:
+      #     keys: [backend-deps]
       - run:
            name: Run migrations
            command: |
@@ -322,8 +322,8 @@ jobs:
       - checkout
       - install_awscli
       - install_nodejs
-      - restore_cache:
-          keys: [backend-deps]
+      # - restore_cache:
+      #     keys: [backend-deps]
       - run:
            name: Install dependencies
            command: |
