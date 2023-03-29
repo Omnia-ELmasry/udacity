@@ -300,13 +300,7 @@ jobs:
              pwd 
              ls
              cd backend
-             sudo npm install
-             npm audit fix 
-             npm audit fix --force --audit-level=critical
-             npm audit fix --force --audit-level=critical
-             npm audit fix --force --audit-level=critical
-             npm audit --audit-level=critical
-             npm audit --audit-level=critical
+             npm install
              npm run migrations > migrations_dump.txt
              cat migrations_dump.txt
       - run:
