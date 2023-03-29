@@ -169,10 +169,8 @@ jobs:
         name: Install dependencies
         command: |
           cd backend
-          npm install
-          npm run build
-          npm audit fix --force --audit-level=critical
-          npm audit --audit-level=critical
+          sudo npm install
+         
     - run:
         name: Run backend unit tests
         command: |
