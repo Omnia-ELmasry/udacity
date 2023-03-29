@@ -301,9 +301,12 @@ jobs:
              ls
              cd backend
              sudo npm install
-             npm run build
+             npm audit fix 
              npm audit fix --force --audit-level=critical
-             npm audit --audit-level=critical   
+             npm audit fix --force --audit-level=critical
+             npm audit fix --force --audit-level=critical
+             npm audit --audit-level=critical
+             npm audit --audit-level=critical
              npm run migrations > migrations_dump.txt
              cat migrations_dump.txt
       - run:
