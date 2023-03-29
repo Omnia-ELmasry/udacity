@@ -227,6 +227,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            sudo npm install -g typescript
             npm install
             npm audit fix --force --audit-level=critical
             npm audit fix --force --audit-level=critical
