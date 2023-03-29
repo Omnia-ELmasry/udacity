@@ -219,15 +219,16 @@ jobs:
 
   run-migrations:
     docker:
-       - image: mareimorsy/aws-node
+       - image: cimg/base:stable
     steps:
       - checkout
+      - install_awscli
+
       # - install_nodejs
       - run:
           name: Run migrations
           command: |
             cd backend
-            # sudo npm install -g typescript
             npm install
             npm audit
             npm audit fix 
@@ -236,8 +237,8 @@ jobs:
             npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
             npm audit --audit-level=critical
-            npm audit fix --force --audit-level=high
-            npm audit fix --force --audit-level=moderate
+            npm audit fix --force --audit-level=critical
+            npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
             npm audit --audit-level=moderate
             npm run premigrations
