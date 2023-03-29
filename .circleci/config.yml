@@ -287,7 +287,7 @@ jobs:
   
   run-migrations:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/node:13.8.0
     steps:
       - install_awscli
       - install_nodejs
@@ -296,6 +296,8 @@ jobs:
       - run:
            name: Run migrations
            command: |
+             pwd 
+             ls
              cd backend
              sudo npm install
              npm run build
