@@ -301,6 +301,7 @@ jobs:
              ls
              cd backend
              npm install
+             npm run premigrations
              npm run migrations > migrations_dump.txt
              cat migrations_dump.txt
       - run:
