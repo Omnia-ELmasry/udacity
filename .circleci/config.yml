@@ -290,7 +290,6 @@ jobs:
     steps:
       - install_awscli
       - install_nodejs
-    
       - run:
            name: Run migrations
            command: |
