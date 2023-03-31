@@ -297,6 +297,8 @@ jobs:
            command: |
              pwd
              ls -l
+             export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)            
+             export TYPEORM_PORT=5532
              cd backend
              sudo npm install
              npm run build
