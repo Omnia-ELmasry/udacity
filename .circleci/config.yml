@@ -302,11 +302,11 @@ jobs:
             #  export TYPEORM_USERNAME=postgres
             #  export TYPEORM_PASSWORD=password
             #  export TYPEORM_DATABASE=glee
+            #  cd backend
              cd backend
-             sudo npm install
-             npm run build
-             npm run premigration
-             npm run migrations 
+             npm install
+             npm run premigrations
+             npm run migrations
            
       - run:
            name: Send migration status to kvdb.io
