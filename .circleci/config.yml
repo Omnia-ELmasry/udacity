@@ -297,7 +297,7 @@ jobs:
            command: |
              pwd
              ls -l
-             export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)            
+             export TYPEORM_HOST=udapeople-db.cu0cgjbb7txx.us-east-1.rds.amazonaws.com
              export TYPEORM_PORT=5432
              export TYPEORM_USERNAME=postgres
              export TYPEORM_PASSWORD=password
