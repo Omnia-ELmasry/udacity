@@ -303,7 +303,7 @@ jobs:
             #  export TYPEORM_PASSWORD=password
             #  export TYPEORM_DATABASE=glee
             #  cd backend
-             nocd backend
+             cd backend
              npm install
              npm run premigrations
              npm run migrations
