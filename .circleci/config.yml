@@ -322,14 +322,14 @@ jobs:
 
   deploy-frontend:
     docker:
-          - image: cimg/python:3.10
+      - image: cimg/python:3.10
 
     steps:
       - checkout
       - install_awscli
       - install_nodejs
       - restore_cache:
-          keys: [backend-deps]
+          keys: [frontend-deps]
       - run:
            name: Install dependencies
            command: |
@@ -351,9 +351,51 @@ jobs:
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
-      - destroy-environment
-      - revert-migrations   
-                    
+      # - destroy-environment
+      # - revert-migrations   
+
+deploy-backend:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - install_awscli
+      - install_ansible
+      - install_nodejs
+      - add_ssh_keys:
+          fingerprints: ["d2:21:3f:71:10:9f:9d:08:e6:20:3b:08:e4:9e:09:0e"]
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys: [ backend-deps ]
+      - run:
+          name: Install dependencies
+          command: |
+            cd backend
+            npm install
+      - run:
+          name: Package Backend
+          command: |
+            cd backend
+            npm run build
+            tar -czf artifact.tar.gz dist/* package*
+
+            cd ..
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+      - run:
+          name: Deploy backend
+          command: |
+            export TYPEORM_MIGRATIONS_DIR=./migrations
+            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_MIGRATIONS=./migrations/*.ts
+
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+
+      # - destroy-environment
+      # - revert-migrations
+                
   # deploy-backend:
   #   docker:
   #     # Docker image here that supports Ansible
@@ -449,9 +491,9 @@ workflows:
       #         only: [master]
       # - configure-infrastructure:
       #     requires: [deploy-infrastructure]
-      - run-migrations
+      # - run-migrations
           # requires: [configure-infrastructure]
-      # - deploy-frontend:
+      - deploy-frontend
       #     requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
