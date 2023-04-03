@@ -385,21 +385,17 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-            echo $TYPEORM_HOST >> .circleci/ansible/inventory.txt
-            echo "Contents  of the inventory.txt file is -------"
-            cat .circleci/ansible/inventory.txt
             cd backend
             npm install
             npm run build
-            echo "TYPEORM_ENTITIES=./modules/domain/**/*.entity.ts" > .env
+            echo "TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts" > .env
             echo "TYPEORM_HOST=${TYPEORM_HOST}" >> .env
             echo "TYPEORM_PORT=${TYPEORM_PORT}" >> .env
             echo "TYPEORM_USERNAME=${TYPEORM_USERNAME}" >> .env
             echo "TYPEORM_PASSWORD=${TYPEORM_PASSWORD}" >> .env
             echo "TYPEORM_DATABASE=${TYPEORM_DATABASE}" >> .env
-            echo "TYPEORM_MIGRATIONS_DIR=./migrations" >> .env
-            echo "TYPEORM_MIGRATIONS=./migrations/*.ts" >> .env
+            echo "TYPEORM_MIGRATIONS_DIR=./src/migrations" >> .env
+            echo "TYPEORM_MIGRATIONS=./src/migrations/*.ts" >> .env
             echo "NODE_ENV=production" >> .env
             tar -czf artifact.tar.gz dist/* package* .env
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/artifact.tar.gz
@@ -515,17 +511,17 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-      # - test-frontend:
-      #     requires: [build-frontend]
-      # - test-backend:
-      #     requires: [build-backend]
-      # - scan-backend:
-      #     requires: [build-backend]
-      # - scan-frontend:
-      #     requires: [build-frontend]
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
       - deploy-infrastructure:
-          requires: [build-frontend, build-backend]
-          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          # requires: [build-frontend, build-backend]
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
             branches:
               only: [master]
