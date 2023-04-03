@@ -385,7 +385,7 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            # export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             echo $TYPEORM_HOST >> .circleci/ansible/inventory.txt
             echo "Contents  of the inventory.txt file is -------"
             cat .circleci/ansible/inventory.txt
