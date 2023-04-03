@@ -349,7 +349,7 @@ jobs:
           command: |
             cd frontend
             npm run build
-            aws s3 cp dist s3://udapeople-akadama --recursive
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
       - destroy-environment
       # - revert-migrations   
@@ -366,8 +366,8 @@ jobs:
           fingerprints: ["d2:21:3f:71:10:9f:9d:08:e6:20:3b:08:e4:9e:09:0e"]
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          keys: [ backend-deps ]
+      # - restore_cache:
+      #     keys: [ backend-deps ]
       # - run:
       #     name: Install dependencies
       #     command: |
@@ -385,21 +385,21 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            # export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             echo $TYPEORM_HOST >> .circleci/ansible/inventory.txt
             echo "Contents  of the inventory.txt file is -------"
             cat .circleci/ansible/inventory.txt
             cd backend
             npm install
             npm run build
-            echo "TYPEORM_ENTITIES=./dist/modules/domain/**/*.entity{.ts,.js}" > .env
+            echo "TYPEORM_ENTITIES=./modules/domain/**/*.entity.ts > .env
             echo "TYPEORM_HOST=${TYPEORM_HOST}" >> .env
             echo "TYPEORM_PORT=${TYPEORM_PORT}" >> .env
             echo "TYPEORM_USERNAME=${TYPEORM_USERNAME}" >> .env
             echo "TYPEORM_PASSWORD=${TYPEORM_PASSWORD}" >> .env
             echo "TYPEORM_DATABASE=${TYPEORM_DATABASE}" >> .env
-            echo "TYPEORM_MIGRATIONS_DIR=./dist/migrations" >> .env
-            echo "TYPEORM_MIGRATIONS=./dist/migrations/*.ts" >> .env
+            echo "TYPEORM_MIGRATIONS_DIR=./migrations" >> .env
+            echo "TYPEORM_MIGRATIONS=./migrations/*.ts" >> .env
             echo "NODE_ENV=production" >> .env
             tar -czf artifact.tar.gz dist/* package* .env
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/artifact.tar.gz
