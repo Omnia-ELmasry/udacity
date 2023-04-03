@@ -434,10 +434,10 @@ jobs:
       - destroy-environment
       # - revert-migrations
 
-    cloudfront-update:
-     docker:
+  cloudfront-update:
+    docker:
       - image: cimg/base:stable
-     steps:
+    steps:
       - checkout
       - install_awscli
       - install_nodejs
