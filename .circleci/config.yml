@@ -392,7 +392,7 @@ jobs:
             cd backend
             npm install
             npm run build
-            echo "TYPEORM_ENTITIES=./modules/domain/**/*.entity.ts > .env
+            echo "TYPEORM_ENTITIES=./modules/domain/**/*.entity.ts" > .env
             echo "TYPEORM_HOST=${TYPEORM_HOST}" >> .env
             echo "TYPEORM_PORT=${TYPEORM_PORT}" >> .env
             echo "TYPEORM_USERNAME=${TYPEORM_USERNAME}" >> .env
