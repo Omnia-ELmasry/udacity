@@ -1,0 +1,15 @@
+1. Public Url to GitHub repository (not private) [URL01]
+
+    https://github.com/Omnia-ELmasry/udacity
+
+2. Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
+
+   https://udapeople-9d5514a.s3.amazonaws.com/index.html
+
+3. deployed and functioning front-end application in CloudFront. [URL03_SCREENSHOT]
+
+   http://d2h2o4naa8536d.cloudfront.net/#/employees
+
+4.backend URL (Server)
+
+   http://44.209.48.20:3030/api/status
