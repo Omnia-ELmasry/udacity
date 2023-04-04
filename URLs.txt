@@ -4,16 +4,17 @@
 
 2. Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
 
-   https://udapeople-9d5514a.s3.amazonaws.com/index.html
+ http://udapeople-1f41a97.s3.amazonaws.com/index.html
 
 3. deployed and functioning front-end application in CloudFront. [URL03_SCREENSHOT]
-    http://d2y9b8eahntmx0.cloudfront.net/#/employees
+   http://d2h2o4naa8536d.cloudfront.net/#/employees/
 
 4.Public URLs to deployed application back-end in EC2:
- http://3.227.134.152:3030/api/status
 
-  [URL04] The last deployed instance Public IP Address: 3.227.134.152 /
-   DNS Name:ec2-3-227-134-152.compute-1.amazonaws.com
+http://3.232.148.66:3030/api/status
+
+  [URL04] The last deployed instance Public IP Address: 3.232.148.66
+   DNS Name:ec2-3-232-148-66.compute-1.amazonaws.com
 
 5.Public URL to your Prometheus Server [URL05] :
 
