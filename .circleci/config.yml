@@ -416,8 +416,8 @@ jobs:
               echo "Rolling Back"
               exit 1
             fi
-      - destroy_environment
-      - revert-migrations  
+      - destroy-environment
+      - revert-migrations   
       # - run:
       #     name: Backend smoke test.
       #     command: |
@@ -445,7 +445,7 @@ jobs:
               exit 1
             fi
       - destroy-environment
-      - revert-migrations      
+      - revert-migrations       
 
   cloudfront-update:
     docker:
