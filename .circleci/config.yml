@@ -49,26 +49,6 @@ commands:
             # Use n version manager to use Node.js v13.8.0
             sudo npm install --global n
             sudo n 13.8.0
-  revert-migrations:
-    description: Revert the last migration, if any were executed during the current workflow
-    parameters:
-      Workflow_ID:
-        type: string
-        default: ${CIRCLE_WORKFLOW_ID:0:7}
-    steps:
-      - run:
-          name: Revert migrations
-          when: on_fail
-          command: |
-            SUCCESS=$(curl --insecure  https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.Workflow_ID >>)
-
-            # Logic for reverting the database state
-            if (( $SUCCESS == 1 ));
-            then
-              cd ~/project/backend
-              npm install
-              npm run migration:revert
-            fi
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -77,20 +57,34 @@ commands:
         default: ${CIRCLE_WORKFLOW_ID:0:7}
     steps:
       - run:
-           name: Destroy environments
-           when: on_fail
-           command: |
-              
-              # Delete frontend stack
-              aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
-
-              # Delete backend stack
-              aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>  
-
-              # Empty frontend bucket
-              aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive 
-    
-
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
+            aws s3 rm s3://udapeople-<< parameters.Workflow_ID>> --recursive
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      Workflow_ID:
+        type: string  
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            SUCCESS=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.Workflow_ID >>)
+            # for reverting DB state
+            # if ("$SUCCESS" != "Not Found");
+            # then
+            if(( $SUCCESS==1 )); 
+            then
+              cd ~/project/backend
+              npm install
+              npm run migrations:revert
+            fi  
+            # fi
             
 jobs:
   build-frontend:
@@ -424,15 +418,15 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees" 
+            FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
             if curl -s $FRONTEND_WEBSITE | grep "Welcome"
             then
-              exit 1
+              exit 0
             else
               exit 1
             fi
       - destroy-environment
-      - revert-migrations
+      - revert-migrations      
 
   cloudfront-update:
     docker:
@@ -461,7 +455,7 @@ jobs:
 
   cleanup:
     docker:
-        - image: cimg/base:stable
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
@@ -473,16 +467,15 @@ jobs:
                 --query "StackSummaries[*].StackName" \
                 --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
             echo Stack names: "${STACKS[@]}"
-
-            export OldWorkflowID=$(curl --insecure https://Kvdb.io/${KVDB_BUCKET}/old_workflow_id)
-            echo Old Workflow ID: $OldWorkflowID
-
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/old_workflow_id3)
+            echo old Workflow ID: $OldWorkflowID
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
-            fi    
+            fi
+
 
 workflows:
   default:
