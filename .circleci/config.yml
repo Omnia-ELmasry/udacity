@@ -416,8 +416,8 @@ jobs:
               echo "Rolling Back"
               exit 1
             fi
-      - notify_on_failure
       - destroy_environment
+      - revert-migrations  
       # - run:
       #     name: Backend smoke test.
       #     command: |
